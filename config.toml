@@ -11,7 +11,7 @@ themesDir = "./themes/"
 
 # website title
 # 网站标题
-title = "yingfeng"
+title = "yingfengwu"
 
 # whether to use robots.txt
 # 是否使用 robots.txt
@@ -93,7 +93,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
   dateFormat = "2006-01-02"
   # website images for Open Graph and Twitter Cards
   # 网站图片, 用于 Open Graph 和 Twitter Cards
-  images = ["/bitbug_favicon.ico"]
+  images = ["/favicon.ico"]
 
   # Header config
   # 页面头部导航栏配置
