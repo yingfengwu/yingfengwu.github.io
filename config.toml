@@ -456,14 +456,14 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
         appKey = "WBmoGyJtbqUswvfLh6L8iEBr"
         placeholder = ""
         avatar = "mp"
-        meta= ""
+        meta= ['nick','mail']
         pageSize = 10
         lang = ""
-        visitor = true
-        recordIP = true
+        visitor = false
+        recordIP = false
         highlight = true
         enableQQ = false
-        serverURLs = "https://leancloud.hugoloveit.com"
+        serverURLs = ""
         # emoji data file name, default is "google.yml"
         # ("apple.yml", "google.yml", "facebook.yml", "twitter.yml")
         # located in "themes/LoveIt/assets/data/emoji/" directory
@@ -530,8 +530,8 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
       # Publisher info
       # 出版者信息
       [params.page.seo.publisher]
-        name = "xxxx"
-        logoUrl = "/images/avatar.png"
+        name = ""
+        logoUrl = ""
 
   # TypeIt config
   # TypeIt 配置

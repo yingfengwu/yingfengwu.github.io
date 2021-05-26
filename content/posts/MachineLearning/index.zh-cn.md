@@ -5,7 +5,7 @@ date: 2021-05-26T17:57:40+08:00
 lastmod: 2021-05-26T18:45:40+08:00
 draft: false
 author: "yingfengwu"
-authorLink: "https://dillonzq.com"
+authorLink: "https://yingfengwu.github.io"
 description: "这篇文章展示了基本的 Markdown 语法和格式."
 resources:
 - name: "featured-image"
