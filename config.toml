@@ -193,7 +193,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
   [params.search]
 	enable = true
 	# 搜索引擎的类型 ("lunr", "algolia")
-	type = "algolia"
+	type = "lunr"
 	# 文章内容最长索引长度
 	contentLength = 4000
 	# 搜索框的占位提示语
