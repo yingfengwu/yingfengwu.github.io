@@ -61,4 +61,4 @@ Disallow: /
 User-agent: ZoominfoBot
 Disallow: /
 
-Sitemap: https://yingfengwu.github.io/sitemap.xml
+Sitemap: https://yingfengwu.github.io/params/sitemap.xml
