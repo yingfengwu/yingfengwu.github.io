@@ -1,21 +1,5 @@
----
-weight: 4
-title: "DecisionTree"
-date: 2021-05-26T17:57:40+08:00
-lastmod: 2021-05-26T18:45:40+08:00
-draft: false
-author: "yingfengwu"
-authorLink: "https://yingfengwu.github.io"
-description: "这篇文章展示了基本的 Markdown 语法和格式."
-resources:
-- name: "featured-image"
-  src: "featured-image.png"
+# Bayesian
 
-tags: ["Machine Learning", "Supervised Learning"]
-categories: ["Machine Learning"]
-
-lightgallery: true
----
 
 这篇文章提供了可以在 Hugo 的文章中使用的基本 Markdown 语法示例.
 
@@ -55,3 +39,4 @@ John Gruber, Markdown 的作者如是说:
 {{< admonition tip >}}
 :(far fa-bookmark fa-fw): 将此页保存为书签，以备将来参考!
 {{< /admonition >}}
+
