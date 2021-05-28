@@ -206,7 +206,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
 	highlightTag = "em"
 	# 是否在搜索索引中使用基于 baseURL 的绝对路径
 	absoluteURL = false
-	[languages.params.search.algolia]
+	[languages.zh-cn.params.search.algolia]
 	  index = "index.zh-cn"
 	  appID = "PASDMWALPK"
 	  searchKey = "b42948e51daaa93df92381c8e2ac0f93"
@@ -240,7 +240,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
 	  
   # 主页的社交信息设置
   [params.social]
-	GitHub = "xxxx"
+	GitHub = "https://github.com/yingfengwu/"
 	Linkedin = ""
 	Twitter = ""
 	Instagram = ""
