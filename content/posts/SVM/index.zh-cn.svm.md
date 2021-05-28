@@ -1,6 +1,6 @@
 ---
 weight: 4
-title: "EM"
+title: "Support Vector Machine"
 date: 2021-05-26T17:57:40+08:00
 lastmod: 2021-05-26T18:45:40+08:00
 draft: false
