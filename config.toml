@@ -240,7 +240,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
 	  
   # 主页的社交信息设置
   [params.social]
-	GitHub = "https://github.com/yingfengwu/"
+	GitHub = "yingfengwu"
 	Linkedin = ""
 	Twitter = ""
 	Instagram = ""
@@ -302,7 +302,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
 	XMPP = ""
 	Matrix = ""
 	Bilibili = ""
-	Email = "xxxx@xxxx.com"
+	Email = "992923230@qq.com"
 	RSS = true
 
   # Page config
