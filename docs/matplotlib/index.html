@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Matplotlib画各种图的总结 - yingfengwu</title><meta name="Description" content="这篇文章展示了Matplotlib画各种图的总结."><meta property="og:title" content="Matplotlib画各种图的总结" />
+<meta property="og:description" content="这篇文章展示了Matplotlib画各种图的总结." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://yingfengwu.github.io/matplotlib/" /><meta property="og:image" content="https://yingfengwu.github.io/favicon.ico"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-05-31T17:57:40&#43;08:00" />
+<meta property="article:modified_time" content="2021-06-03T18:45:40&#43;08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://yingfengwu.github.io/favicon.ico"/>
+
+<meta name="twitter:title" content="Matplotlib画各种图的总结"/>
+<meta name="twitter:description" content="这篇文章展示了Matplotlib画各种图的总结."/>
+<meta name="application-name" content="yingfengwu">
+<meta name="apple-mobile-web-app-title" content="yingfengwu"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://yingfengwu.github.io/matplotlib/" /><link rel="prev" href="https://yingfengwu.github.io/spark/" /><link rel="next" href="https://yingfengwu.github.io/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Matplotlib画各种图的总结",
+        "inLanguage": "",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/yingfengwu.github.io\/matplotlib\/"
+        },"image": ["https:\/\/yingfengwu.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "python画图","wordcount":  948 ,
+        "url": "https:\/\/yingfengwu.github.io\/matplotlib\/","datePublished": "2021-05-31T17:57:40+08:00","dateModified": "2021-06-03T18:45:40+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "yingfengwu"
+            },"description": "这篇文章展示了Matplotlib画各种图的总结."
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="yingfengwu"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw'></i></span>Life-long Learning</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tages </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><a class="menu-item" href="https://github.com/yingfengwu/" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="yingfengwu"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw'></i></span>Life-long Learning</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tages</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a class="menu-item" href="https://github.com/yingfengwu/" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Matplotlib画各种图的总结</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://yingfengwu.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>yingfengwu</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E5%A4%A9%E6%B1%A0ai%E8%AE%AD%E7%BB%83%E8%90%A5/"><i class="far fa-folder fa-fw"></i>天池AI训练营</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-05-31">2021-05-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 948 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;<span id="/matplotlib/" class="leancloud_visitors" data-flag-title="Matplotlib画各种图的总结">
+                        <i class="far fa-eye fa-fw"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#学习知识点概要">学习知识点概要</a></li>
+        <li><a href="#学习内容">学习内容</a>
+          <ul>
+            <li><a href="#展示趋势变化的图">展示趋势变化的图</a>
+              <ul>
+                <li><a href="#1折线图line-chart">1.折线图（Line chart）</a></li>
+                <li><a href="#2面积图area-chart">2.面积图（Area chart）</a></li>
+                <li><a href="#3堆积面积图stacked-area-chart">3.堆积面积图（Stacked area chart）</a></li>
+              </ul>
+            </li>
+            <li><a href="#展示分布关系的图">展示分布关系的图</a>
+              <ul>
+                <li><a href="#1小提琴图violin-plot">1.小提琴图（Violin plot）</a></li>
+                <li><a href="#2箱型图box-plot">2.箱型图（Box plot）</a></li>
+                <li><a href="#3直方图histogram">3.直方图（Histogram）</a></li>
+                <li><a href="#4密度图density">4.密度图（Density）</a></li>
+              </ul>
+            </li>
+            <li><a href="#展示相关关系的图">展示相关关系的图</a>
+              <ul>
+                <li><a href="#1散点图scatter-plot">1.散点图（Scatter plot）</a></li>
+                <li><a href="#2热力图heatmap">2.热力图（Heatmap）</a></li>
+                <li><a href="#3气泡图bubble-plot">3.气泡图（Bubble plot）</a></li>
+              </ul>
+            </li>
+            <li><a href="#展示排序信息的图">展示排序信息的图</a>
+              <ul>
+                <li><a href="#1柱状图barplot">1.柱状图（Barplot）</a></li>
+                <li><a href="#2雷达图radar">2.雷达图（Radar）</a></li>
+                <li><a href="#3平行坐标图parallel-coordinates">3.平行坐标图（Parallel coordinates）</a></li>
+                <li><a href="#4棒棒糖图lollipop">4.棒棒糖图（Lollipop）</a></li>
+                <li><a href="#5圆形柱状图circular-barplot">5.圆形柱状图（Circular barplot）</a></li>
+              </ul>
+            </li>
+            <li><a href="#展示组成关系的图">展示组成关系的图</a>
+              <ul>
+                <li><a href="#1饼图pie-chart">1.饼图（Pie chart）</a></li>
+                <li><a href="#2甜甜圈图donut-chart">2.甜甜圈图（Donut chart）</a></li>
+                <li><a href="#3文氏图venn-diagram">3.文氏图（Venn diagram）</a></li>
+                <li><a href="#4树图treemap">4.树图（Treemap）</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#学习思考与总结">学习思考与总结</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>数据可视化的图表种类繁多，各式各样，因此我们需要掌握如何在特定场景下使用特定的图表。 
+数据可视化是为业务目的服务的，好的可视化图表可以起到清晰准确反映业务结果的目的，在选
+择使用何种图表时，通常我们需要首先考虑你想通过可视化阐述什么样的故事，受众是谁，以及打算如何分析结果。</p>
+<p>关于如何利用数据创造出吸引人的、信息量大的、有说服力的故事，进而达到有效沟通的目的，
+可以进一步阅读这本书<a href="https://book.douban.com/subject/27108685/" target="_blank" rel="noopener noreffer">《用数据讲故事》</a>学习。</p>
+<h3 id="学习知识点概要">学习知识点概要</h3>
+<p>常见的场景分为5大类：</p>
+<p>1）展示趋势变化（Evolution）</p>
+<p>2）展示分布关系（Distribution）</p>
+<p>3）展示相关关系（Correlation）</p>
+<p>4）展示排序信息（Ranking）</p>
+<p>5）展示组成关系（Part of a whole）</p>
+<h3 id="学习内容">学习内容</h3>
+<h4 id="展示趋势变化的图">展示趋势变化的图</h4>
+<h5 id="1折线图line-chart">1.折线图（Line chart）</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="c1"># 创建数据，分别对应X轴和Y轴，注意X轴要是有序排列的</span>
+<span class="n">df1</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;x1data&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">),</span> <span class="s1">&#39;y1data&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)})</span>
+<span class="n">df2</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;x2data&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">),</span> <span class="s1">&#39;y2data&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)})</span>
+<span class="n">df3</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;x3data&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">),</span> <span class="s1">&#39;y3data&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)})</span>
+
+<span class="c1"># 设定式样，也可以选择其他的风格式样 seaborn-whitegrid</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;seaborn-darkgrid&#39;</span><span class="p">)</span>
+
+<span class="c1"># 创建调色板， 色卡用来控制每条线的颜色</span>
+<span class="n">palette</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;Set1&#39;</span><span class="p">)</span>
+
+<span class="c1"># 绘图，设置画布大小</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span> 
+<span class="c1"># color：    控制线条颜色，red/skyblue/blue 等</span>
+<span class="c1"># alpha：    控制线条透明度</span>
+<span class="c1"># linestyle：控制线条式样，&#34;--&#34;， &#34;-&#34;， &#34;-.&#34;， &#34;:&#34; 等</span>
+<span class="c1"># linewidth：控制线条粗细大小</span>
+<span class="c1"># num用调色板改变颜色</span>
+<span class="n">num</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;x1data&#39;</span><span class="p">,</span> <span class="s1">&#39;y1data&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df1</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">palette</span><span class="p">(</span><span class="n">num</span><span class="p">),</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span>  <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;data1&#39;</span><span class="p">)</span>
+<span class="n">num</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;x2data&#39;</span><span class="p">,</span> <span class="s1">&#39;y2data&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df2</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">palette</span><span class="p">(</span><span class="n">num</span><span class="p">),</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-.&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;data2&#39;</span><span class="p">)</span>
+<span class="n">num</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;x3data&#39;</span><span class="p">,</span> <span class="s1">&#39;y3data&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df3</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">palette</span><span class="p">(</span><span class="n">num</span><span class="p">),</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;data3&#39;</span><span class="p">)</span>
+
+<span class="c1"># 画出label名在图中的位置</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Multiple line plot&#34;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&#34;xdata&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&#34;ydata&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>画出的多折线图如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="LinePlot.png"
+        data-srcset="/matplotlib/LinePlot.png, LinePlot.png 1.5x, /matplotlib/LinePlot.png 2x"
+        data-sizes="auto"
+        alt="/matplotlib/LinePlot.png"
+        title="LinePlot" /></p>
+<h5 id="2面积图area-chart">2.面积图（Area chart）</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+ 
+<span class="c1"># 创建数据</span>
+<span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+
+<span class="c1"># 设定式样，也可以选择其他的风格式样 seaborn-whitegrid</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;seaborn-darkgrid&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># 绘图</span>
+<span class="c1"># facecolor：控制填充颜色，red/skyblue/blue 等</span>
+<span class="c1"># alpha：    控制填充透明度</span>
+<span class="c1"># hatch:     控制阴影式样{&#39;/&#39;, &#39;\&#39;, &#39;|&#39;, &#39;-&#39;, &#39;+&#39;, &#39;x&#39;, &#39;o&#39;, &#39;O&#39;, &#39;.&#39;, &#39;*&#39;}</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&#34;skyblue&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Area without line&#39;</span><span class="p">)</span>
+
+<span class="c1"># 在填充的基础上，添加一条折线，图形更加清晰</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&#34;skyblue&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="c1"># 画线 </span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;skyblue&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Area with line&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>画出的面积图如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="AreaChart.png"
+        data-srcset="/matplotlib/AreaChart.png, AreaChart.png 1.5x, /matplotlib/AreaChart.png 2x"
+        data-sizes="auto"
+        alt="/matplotlib/AreaChart.png"
+        title="AreaChart" /></p>
+<h5 id="3堆积面积图stacked-area-chart">3.堆积面积图（Stacked area chart）</h5>
+<p>堆积面积图是基础面积图的一个延伸，它将多个类别的数据变化都显示在了一个图形中。</p>
+<p>它有以下特点：</p>
+<ol>
+<li>不同于多折线图的线条可能相互交叉，堆积面积图不会出现不同分类的数据点被遮盖、被隐藏的状况。每个类别都是都是堆积在下面类别面积图之上的。</li>
+<li>堆积面积图与标准面积图不同，某一分类的值并非与纵坐标完全对应，而是通过折线之间的相对高度来表达。</li>
+<li>堆积面积图不仅可以展示各类的发展趋势(面积图和折线图都能表示这个)， 可以表达总体的发展趋势和个种类间的关系，比如重要程度，大致占比等。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="c1"># 风格</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;seaborn-darkgrid&#39;</span><span class="p">)</span>  
+<span class="c1"># 画布大小</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>   
+
+<span class="c1"># 定义x，y值</span>
+<span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
+
+<span class="c1"># 绘图，数据输入方式可以是一个X和多个Y，也可以将多列Y的数据合并成一个</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stackplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Stacked Area&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>画出的堆积面积图如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="StackedAreaChart.PNG"
+        data-srcset="/matplotlib/StackedAreaChart.PNG, StackedAreaChart.PNG 1.5x, /matplotlib/StackedAreaChart.PNG 2x"
+        data-sizes="auto"
+        alt="/matplotlib/StackedAreaChart.PNG"
+        title="StackedAreaChart" /></p>
+<h4 id="展示分布关系的图">展示分布关系的图</h4>
+<h5 id="1小提琴图violin-plot">1.小提琴图（Violin plot）</h5>
+<p>小提琴图是用来展示多组数据的分布状态以及概率密度。这种图表结合了箱形图和密度图的特征。
+小提琴图的功能与箱型图类似。 它显示了一个（或多个）分类变量多个属性上的定量数据的分布，
+从而可以比较这些分布。与箱形图不同，其中所有绘图单元都与实际数据点对应，小提琴图描述了
+基础数据分布的核密度估计。</p>
+<p>注意事项：</p>
+<ol>
+<li>不适合展示只有很少组别的数据。</li>
+<li>按照中位数排序能让数据看起来更直观。</li>
+</ol>
+<p>小提琴图可以用seaborn包的violinplot方法实现。
+具体代码可查看<a href="https://seaborn.pydata.org/generated/seaborn.violinplot.html?highlight=violinplot#seaborn.violinplot" target="_blank" rel="noopener noreffer">示例</a>。</p>
+<h5 id="2箱型图box-plot">2.箱型图（Box plot）</h5>
+<p>箱形图（或盒须图）以一种利于变量之间比较或不同分类变量层次之间比较的方式来展
+示定量数据的分布。矩形框显示数据集的上下四分位数，而矩形框中延伸出的线段（触
+须）则用于显示其余数据的分布位置，剩下超过上下四分位间距的数据点则被视为“异常值”。</p>
+<p>箱型图的基本作用如下：</p>
+<ol>
+<li>数据异常值。箱形图为我们提供了识别异常值的一个标准：异常值被定义为小于Q1－1.5IQR或大于Q3+1.5IQR的值。</li>
+<li>偏态和尾重。箱型图揭示了数据批分布偏态和尾重的部分信息，尽管它们不能给出偏态和尾重程度的精确度量，但可作为我们粗略估计的依据。</li>
+<li>数据的形状。同一数轴上，几批数据的箱形图并行排列，几批数据的中位数、尾长、异常值、分布区间等形状信息便一目了然。在一批数据
+中，哪几个数据点出类拔萃，哪些数据点表现不及一般，这些数据点放在同类其它群体中处于什么位置，可以通过比较各箱形图的异常值看出。</li>
+</ol>
+<p>注意事项：</p>
+<ol>
+<li>箱型图隐藏了每个分组的数据量信息，可以通过标注或箱子宽度来展现。</li>
+<li>箱型图隐藏了背后的分布信息，当数据量较少时可以使用数据抖动(jitter),当数据量较大时可以使用小提琴图来展现。</li>
+</ol>
+<p>箱型图可以直接使用seaborn的boxplot方法来实现。
+具体代码可查看<a href="https://seaborn.pydata.org/generated/seaborn.boxplot.html?highlight=boxplot#seaborn.boxplot" target="_blank" rel="noopener noreffer">示例</a>。</p>
+<h5 id="3直方图histogram">3.直方图（Histogram）</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_boston</span>
+<span class="n">boston</span><span class="o">=</span><span class="n">load_boston</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
+
+<span class="c1"># 获取图和坐标轴</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="c1"># 计数标准直方图，axs[0,1,2]表示三个不同坐标的图</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="c1"># 归一化的直方图</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;probability&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="c1"># 在直方图上同时画出密度曲线, kde为计算核密度估计去平滑分布然后画出一条线</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;probability&#39;</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>画出的堆积面积图如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="Histogram.png"
+        data-srcset="/matplotlib/Histogram.png, Histogram.png 1.5x, /matplotlib/Histogram.png 2x"
+        data-sizes="auto"
+        alt="/matplotlib/Histogram.png"
+        title="Histogram" /></p>
+<h5 id="4密度图density">4.密度图（Density）</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="c1"># kdeplot()中的bw参数控制着估计值与真实数据之间的贴近程度</span>
+<span class="c1"># 它与我们的KDE图的宽度相关。它提供了默认的规则来确定一个取值</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;bw: default&#34;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bw_method</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;bw: 0.2&#34;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bw_method</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;bw: 2&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>画出的堆积面积图如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="Density.png"
+        data-srcset="/matplotlib/Density.png, Density.png 1.5x, /matplotlib/Density.png 2x"
+        data-sizes="auto"
+        alt="/matplotlib/Density.png"
+        title="Density" /></p>
+<h4 id="展示相关关系的图">展示相关关系的图</h4>
+<h5 id="1散点图scatter-plot">1.散点图（Scatter plot）</h5>
+<p>散点图常用于查看数值型变量之间的相关性，同时可以利用不同颜色来区分样本所属的类别。</p>
+<p>注意事项:</p>
+<ol>
+<li>绘制散点图时要避免Overplotting，意思是由于散点数量过多导致图中的样例点过度重合。</li>
+<li>为了避免overplotting，第一种方式可以通过抽样来作图，第二种方式可以用热力图代替，第三种方式是调节样本点的size。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_boston</span>
+<span class="n">boston</span><span class="o">=</span><span class="n">load_boston</span><span class="p">()</span>
+
+<span class="c1"># 绘制标准散点图, s为点的大小</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">boston</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">boston</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>画出的散点图如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="ScatterPlot.png"
+        data-srcset="/matplotlib/ScatterPlot.png, ScatterPlot.png 1.5x, /matplotlib/ScatterPlot.png 2x"
+        data-sizes="auto"
+        alt="/matplotlib/ScatterPlot.png"
+        title="ScatterPlot" /></p>
+<h5 id="2热力图heatmap">2.热力图（Heatmap）</h5>
+<p>密度图对于一组数值变量，可以理解为先对其进行二维分箱，再分别统计每个箱子的对应指标；
+对于分类变量而言，箱子一般可以指定为对应的类别。但通常，热力图更多用来表示数值变量的总体信息。</p>
+<p>注意事项:</p>
+<ol>
+<li>考虑到长尾分布等情况，经常需要对数据做标准化的预处理 。</li>
+<li>经常需要对数据先进行分箱再绘图，对于类别变量而言，可以进行类别的合并；同时对于数值变量而言，既可以包含分位数分箱，也可以包含等间隔分箱。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span><span class="p">;</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span><span class="p">;</span> <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">()</span>
+<span class="n">uniform_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">uniform_data</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>画出的热力图如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="Heatmap.png"
+        data-srcset="/matplotlib/Heatmap.png, Heatmap.png 1.5x, /matplotlib/Heatmap.png 2x"
+        data-sizes="auto"
+        alt="/matplotlib/Heatmap.png"
+        title="Heatmap" /></p>
+<h5 id="3气泡图bubble-plot">3.气泡图（Bubble plot）</h5>
+<p>气泡图适用于超过二维特征的可视化，一般可以用气泡的颜色和大小来表示第三维、第四维的特征，可以认为气泡图是散点图的衍生。</p>
+<p>注意事项:</p>
+<ol>
+<li>使用气泡面积而不是气泡的直径作为数值指标对比。</li>
+<li>和散点图类似，气泡图同样要注意overplotting的问题。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_boston</span>
+<span class="n">boston</span><span class="o">=</span><span class="n">load_boston</span><span class="p">()</span>
+<span class="c1"># 用气泡大小显示该feature大小</span>
+<span class="n">new_feature1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>  
+<span class="c1"># 用气泡深浅显示该feature大小</span>
+<span class="n">new_feature2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">boston</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">boston</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="n">new_feature1</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">new_feature2</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="s2">&#34;Blues&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&#34;grey&#34;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>画出的气泡图如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="BubblePlot.png"
+        data-srcset="/matplotlib/BubblePlot.png, BubblePlot.png 1.5x, /matplotlib/BubblePlot.png 2x"
+        data-sizes="auto"
+        alt="/matplotlib/BubblePlot.png"
+        title="BubblePlot" /></p>
+<h4 id="展示排序信息的图">展示排序信息的图</h4>
+<h5 id="1柱状图barplot">1.柱状图（Barplot）</h5>
+<p>柱状图用来展示一个类别变量和一个数值变量之间的关系，每个柱子代表一个类别，
+柱子的长度代表这个类别的数值。通常来说，柱状图是展示此类信息最有效的方式之一。</p>
+<p>注意事项：</p>
+<ol>
+<li>不要和直方图混淆。直方图一般横轴是数值区间。</li>
+<li>类别标签较长时，可以采用横向柱状图。</li>
+<li>给柱子排序通常更有利于展示信息。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="n">height</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="p">,</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+<span class="n">x_data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">20</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>画出的柱状图如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="BarPlot.png"
+        data-srcset="/matplotlib/BarPlot.png, BarPlot.png 1.5x, /matplotlib/BarPlot.png 2x"
+        data-sizes="auto"
+        alt="/matplotlib/BarPlot.png"
+        title="BarPlot" /></p>
+<h5 id="2雷达图radar">2.雷达图（Radar）</h5>
+<p>雷达图是一种展示多个定量变量的二维图表，所有变量交汇在中心同一点，由于使用限制较多，在可视化中一般较少用到。</p>
+<p>注意事项:</p>
+<ol>
+<li>不要在一张图显示超过5个组别。</li>
+<li>当不同组别标度差别很大时，谨慎使用雷达图。</li>
+</ol>
+<p>可以使用极坐标系和多边形填充的方式绘制雷达图。</p>
+<h5 id="3平行坐标图parallel-coordinates">3.平行坐标图（Parallel coordinates）</h5>
+<p>平行坐标图用来比较样本在一组数值型变量上的特征，它是雷达图的另一种表现形式，在可视化中更推荐被使用。</p>
+<p>注意事项:</p>
+<ol>
+<li>不适合用于组别过多的情况。</li>
+<li>可以在X轴对数据排序，避免曲线之间的交叉。</li>
+</ol>
+<p>可以通过pandas.plotting中的parallel_coordinates方法绘制平行坐标图。</p>
+<h5 id="4棒棒糖图lollipop">4.棒棒糖图（Lollipop）</h5>
+<p>棒棒糖图本质上是柱状图的另一种表现形式，区别是把柱子用线和点来代替，但是从视觉上表现效果更好。</p>
+<p>注意事项：</p>
+<ol>
+<li>排序会使得显示效果更好</li>
+<li>如果因为某种原因不能保持排序状态，那么宁愿选择柱状图</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="n">x_data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">101</span><span class="p">]</span>
+<span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x1_data&#39;</span><span class="p">,</span> <span class="s1">&#39;x2_data&#39;</span><span class="p">,</span> <span class="s1">&#39;x3_data&#39;</span><span class="p">,</span> <span class="s1">&#39;x4_data&#39;</span><span class="p">,</span> <span class="s1">&#39;x5_data&#39;</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">x_data</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>画出的棒棒糖图如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="Lollipop.PNG"
+        data-srcset="/matplotlib/Lollipop.PNG, Lollipop.PNG 1.5x, /matplotlib/Lollipop.PNG 2x"
+        data-sizes="auto"
+        alt="/matplotlib/Lollipop.PNG"
+        title="Lollipop" /></p>
+<h5 id="5圆形柱状图circular-barplot">5.圆形柱状图（Circular barplot）</h5>
+<p>圆形柱状图相比于柱状图更吸引眼球，但同时也更难识别出柱子尺寸的差别，
+因此只有当你有大量类别需要展示，并且有一些明显突出的类别时才会使用。</p>
+<p>注意事项：</p>
+<ol>
+<li>内圈的比例不能太小，一般须超过外圈的三分之一 。</li>
+<li>通常只有当你有很多类别需要展示时才会用（&gt;40）。</li>
+</ol>
+<p>在matplotlib中，可以通过极坐标系下的柱状图加上内圈的圆来绘制圆形柱状图。</p>
+<h4 id="展示组成关系的图">展示组成关系的图</h4>
+<h5 id="1饼图pie-chart">1.饼图（Pie chart）</h5>
+<p>饼图在图像上是一个被分成若干部分的圆，用于反映每个部分对于整体所占的比重。</p>
+<p>注意事项：</p>
+<ol>
+<li>如果使用百分数，确保它加起来是100%。</li>
+<li>不要使用3d和图例，使得图的阅读性更差。</li>
+</ol>
+<p>饼图可以直接用pyplot.pie函数绘制，也可以调用pandas库的绘图接口dataframe.plot。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 绘制Pie chart</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="c1"># 1*1画布</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>  
+<span class="c1"># 3*2 array</span>
+<span class="n">vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">60.</span><span class="p">,</span> <span class="mf">32.</span><span class="p">],</span> <span class="p">[</span><span class="mf">37.</span><span class="p">,</span> <span class="mf">40.</span><span class="p">],</span> <span class="p">[</span><span class="mf">29.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">]])</span>  
+<span class="c1"># wedge object 控制圆环的宽度，axis为加和的方向</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">vals</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># 定义数据，4组，每组设定一个值: </span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">])</span>
+<span class="c1"># 开始绘画</span>
+<span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;pie&#39;</span><span class="p">,</span> <span class="n">subplots</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>画出的饼图如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="PieChart.png"
+        data-srcset="/matplotlib/PieChart.png, PieChart.png 1.5x, /matplotlib/PieChart.png 2x"
+        data-sizes="auto"
+        alt="/matplotlib/PieChart.png"
+        title="PieChart" /></p>
+<h5 id="2甜甜圈图donut-chart">2.甜甜圈图（Donut chart）</h5>
+<p>甜甜圈图和饼图极为类似，都是用来反映几个对象的组成比例，因而也有着相似的注意事项。</p>
+<p>注意事项：</p>
+<ol>
+<li>如果使用百分数，确保它加起来是100%。</li>
+<li>不要使用3d和图例，使得图的阅读性更差。</li>
+</ol>
+<p>在绘图时可以通过在饼图的中心画一个和底色相同的同心圆方式来绘制。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="c1"># 定义数据：有三个大组和七个小组</span>
+<span class="n">group_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;groupA&#39;</span><span class="p">,</span> <span class="s1">&#39;groupB&#39;</span><span class="p">,</span> <span class="s1">&#39;groupC&#39;</span><span class="p">]</span>
+<span class="n">group_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
+<span class="n">subgroup_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A.1&#39;</span><span class="p">,</span> <span class="s1">&#39;A.2&#39;</span><span class="p">,</span> <span class="s1">&#39;A.3&#39;</span><span class="p">,</span> <span class="s1">&#39;B.1&#39;</span><span class="p">,</span> <span class="s1">&#39;B.2&#39;</span><span class="p">,</span> <span class="s1">&#39;C.1&#39;</span><span class="p">,</span> <span class="s1">&#39;C.2&#39;</span><span class="p">,</span> <span class="s1">&#39;C.3&#39;</span><span class="p">,</span> <span class="s1">&#39;C.4&#39;</span><span class="p">,</span> <span class="s1">&#39;C.5&#39;</span><span class="p">]</span>
+<span class="n">subgroup_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+
+<span class="c1"># 定义颜色</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Blues</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Reds</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Greens</span><span class="p">]</span>
+
+<span class="c1"># 第一个环（外环）</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">mypie</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">group_size</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.3</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">group_names</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="n">a</span><span class="p">(</span><span class="mf">0.6</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="mf">0.6</span><span class="p">),</span> <span class="n">c</span><span class="p">(</span><span class="mf">0.6</span><span class="p">)])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">mypie</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+
+<span class="c1"># 第二个环（内环）</span>
+<span class="n">mypie2</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">subgroup_size</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.3</span> <span class="o">-</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">subgroup_names</span><span class="p">,</span> <span class="n">labeldistance</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+                   <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="n">a</span><span class="p">(</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">a</span><span class="p">(</span><span class="mf">0.4</span><span class="p">),</span> <span class="n">a</span><span class="p">(</span><span class="mf">0.3</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="mf">0.4</span><span class="p">),</span> <span class="n">c</span><span class="p">(</span><span class="mf">0.6</span><span class="p">),</span> <span class="n">c</span><span class="p">(</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">c</span><span class="p">(</span><span class="mf">0.4</span><span class="p">),</span> <span class="n">c</span><span class="p">(</span><span class="mf">0.3</span><span class="p">),</span> <span class="n">c</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">mypie2</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>画出的甜甜圈图如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="DonutChart.png"
+        data-srcset="/matplotlib/DonutChart.png, DonutChart.png 1.5x, /matplotlib/DonutChart.png 2x"
+        data-sizes="auto"
+        alt="/matplotlib/DonutChart.png"
+        title="DonutChart" /></p>
+<h5 id="3文氏图venn-diagram">3.文氏图（Venn diagram）</h5>
+<p>文氏图用于表示不同集合的有限集合之间所有可能的逻辑关系，每个集合用一个圆表示，圆的大小反映了该组的
+重要性，组与组之间通常会有交叠，交叠的部分体现了不同组之间的交叉数据。</p>
+<p>注意事项：</p>
+<ol>
+<li>不建议绘制超过3个集合的venn图，超过3个集合的venn图不便于理解。</li>
+<li>图中的数字指代集合之间交集的元素个数。</li>
+</ol>
+<p>文氏图可以利用matplotlib_venn包中的venn2和venn3方法绘制两个集合或三个集合的之间的逻辑关系。文氏图的数据类型可以是set或tuple。</p>
+<p>venn2方法中可以指定两个set的取值，venn2方法中可以指定3个set的取值
+可以通过一个tuple指定集合之间的重叠关系，且在venn2方法中tuple只有前3个元素会被用于venn图绘制，在venn3方法中tuple只有前7个元素会被用于venn图绘制。</p>
+<h5 id="4树图treemap">4.树图（Treemap）</h5>
+<p>树图将数据显示为一组嵌套的矩形，通过矩形的面积反映其取值大小，使用配色方案，可以表示多个维度:组、子组。
+树图的优势是充分利用了空间，使得在有限的空间内展示大量数据。</p>
+<p>注意事项：</p>
+<ol>
+<li>不要在层次结构中注释超过3个级别，这会使图形不可读。</li>
+<li>优先考虑层次结构的最高层次。</li>
+</ol>
+<p>可以使用squarify包绘制树图，squarify的底层代码也是基于matplotlib实现的。</p>
+<h3 id="学习思考与总结">学习思考与总结</h3>
+<p>本文的总结主要是简单汇总python可实现的不同的图，内容并不完整，更多内容需要查看官网相关示例才能知晓。</p>
+<p>参考资料：</p>
+<p><a href="https://matplotlib.org/stable/index.html" target="_blank" rel="noopener noreffer">matplotlib官网</a></p>
+<p><a href="https://seaborn.pydata.org/index.html" target="_blank" rel="noopener noreffer">seaborn官网</a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-06-03</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/matplotlib/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://yingfengwu.github.io/matplotlib/" data-title="Matplotlib画各种图的总结" data-hashtags="python画图"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://yingfengwu.github.io/matplotlib/" data-hashtag="python画图"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://yingfengwu.github.io/matplotlib/" data-title="Matplotlib画各种图的总结"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://yingfengwu.github.io/matplotlib/" data-title="Matplotlib画各种图的总结"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://yingfengwu.github.io/matplotlib/" data-title="Matplotlib画各种图的总结"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/python%E7%94%BB%E5%9B%BE/">python画图</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/spark/" class="prev" rel="prev" title="Spark"><i class="fas fa-angle-left fa-fw"></i>Spark</a>
+            <a href="/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/" class="next" rel="next" title="排序算法总结（多示例&#43;讲解）">排序算法总结（多示例&#43;讲解）<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.83.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">yingfengwu</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lunr@2.3.8/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/js/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-thumbnail.js@1.2.0/dist/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-zoom.js@1.2.0/dist/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"valine":{"appId":"jU6Y9tysNTNuBKd3EFPOjnP2-gzGzoHsz","appKey":"mb1nQDesHE9zYS9Vjqf2In9P","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@5.0.1/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"zh-cn","pageSize":10,"placeholder":"你的评论 ...","recordIP":true,"visitor":true}},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

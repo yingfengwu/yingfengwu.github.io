@@ -1,0 +1,22 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>python画图 - 标签 - yingfengwu</title>
+        <link>https://yingfengwu.github.io/tags/python%E7%94%BB%E5%9B%BE/</link>
+        <description>python画图 - 标签 - yingfengwu</description>
+        <generator>Hugo -- gohugo.io</generator><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 31 May 2021 17:57:40 &#43;0800</lastBuildDate><atom:link href="https://yingfengwu.github.io/tags/python%E7%94%BB%E5%9B%BE/" rel="self" type="application/rss+xml" /><item>
+    <title>Matplotlib画各种图的总结</title>
+    <link>https://yingfengwu.github.io/matplotlib/</link>
+    <pubDate>Mon, 31 May 2021 17:57:40 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://yingfengwu.github.io/matplotlib/</guid>
+    <description><![CDATA[数据可视化的图表种类繁多，各式各样，因此我们需要掌握如何在特定场景下使用特定的图表。 数据可视化是为业务目的服务的，好的可视化图表可以起到清晰准确反映业务结果的目的，在选 择使用何种图表时，通常我们需要首先考虑你想通过可视化阐述什么样的故事，受众是谁，以及打算如何分析结果。
+关于如何利用数据创造出吸引人的、信息量大的、有说服力的故事，进而达到有效沟通的目的， 可以进一步阅读这本书《用数据讲故事》学习。
+学习知识点概要 常见的场景分为5大类：
+1）展示趋势变化（Evolution）
+2）展示分布关系（Distribution）
+3）展示相关关系（Correlation）
+4）展示排序信息（Ranking）
+5）展示组成关系（Part of a whole）
+学习内容 展示趋势变化的图 1.折线图（Line chart） 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35  import matplotlib.pyplot as plt import numpy as np import pandas as pd # 创建数据，分别对应X轴和Y轴，注意X轴要是有序排列的 df1=pd.DataFrame({&#39;x1data&#39;: range(1,101), &#39;y1data&#39;: np.]]></description>
+</item></channel>
+</rss>

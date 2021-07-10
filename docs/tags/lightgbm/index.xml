@@ -1,0 +1,24 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>LightGBM - 标签 - yingfengwu</title>
+        <link>https://yingfengwu.github.io/tags/lightgbm/</link>
+        <description>LightGBM - 标签 - yingfengwu</description>
+        <generator>Hugo -- gohugo.io</generator><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 04 Jun 2021 17:57:40 &#43;0800</lastBuildDate><atom:link href="https://yingfengwu.github.io/tags/lightgbm/" rel="self" type="application/rss+xml" /><item>
+    <title>基于LightGBM的分类预测学习笔记</title>
+    <link>https://yingfengwu.github.io/%E5%9F%BA%E4%BA%8Elightgbm%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/</link>
+    <pubDate>Fri, 04 Jun 2021 17:57:40 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://yingfengwu.github.io/%E5%9F%BA%E4%BA%8Elightgbm%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/</guid>
+    <description><![CDATA[学习知识点概要   LightGBM的介绍及应用
+  基于英雄联盟数据集的LightGBM分类实战
+  学习内容 LightGBM的介绍 LightGBM是2017年由微软推出的可扩展机器学习系统，是微软旗下DMKT的一个开源项目，由2014年首届 阿里巴巴大数据竞赛获胜者之一柯国霖老师带领开发。它是一款基于GBDT（梯度提升决策树）算法的分 布式梯度提升框架，为了满足缩短模型计算时间的需求，LightGBM的设计思路主要集中在减小数据对内 存与计算性能的使用，以及减少多机器并行计算时的通讯代价。
+LightGBM可以看作是XGBoost的升级豪华版，在获得与XGBoost近似精度的同时，又提供了更快的训练速 度与更少的内存消耗。正如其名字中的Light所蕴含的那样，LightGBM在大规模数据集上跑起来更加优 雅轻盈，一经推出便成为各种数据竞赛中刷榜夺冠的神兵利器。
+ 优点：  简单易用。提供了主流的Python\C++\R语言接口，用户可以轻松使用LightGBM建模并获得相当不错的效果。 高效可扩展。在处理大规模数据集时高效迅速、高准确度，对内存等硬件资源要求不高。 鲁棒性强。相较于深度学习模型不需要精细调参便能取得近似的效果。 LightGBM直接支持缺失值与类别特征，无需对数据额外进行特殊处理   缺点：  相对于深度学习模型无法对时空位置建模，不能很好地捕获图像、语音、文本等高维数据。 在拥有海量训练数据，并能找到合适的深度学习模型时，深度学习的精度可以遥遥领先LightGBM。    LightGBM原理:
+LightGBM是基于CART树的集成模型，它的思想是串联多个决策树模型共同进行决策。基模型是CART回归 树，它有两个特点：（1）CART树，是一颗二叉树。（2）回归树，最后拟合结果是连续值。
+那么如何串联呢？LightGBM采用迭代预测误差的方法串联。举个通俗的例子，我们现在需要预测一辆车 价值3000元。我们构建决策树1训练后预测为2600元，我们发现有400元的误差，那么决策树2的训练目 标为400元，但决策树2的预测结果为350元，还存在50元的误差就交给第三棵树……以此类推，每一颗树 用来估计之前所有树的误差，最后所有树预测结果的求和就是最终预测结果！
+XGBoost模型可以表示为以下形式，我们约定$ f_t(x) $表示前 t 颗树的和，h_t(x)表示第 t 颗决策树，模型定义如下： $$ f_t(x)=\sum_{t=1}^T h_t(x) $$
+由于模型递归生成，第t步的模型由第t-1步的模型形成，则可以写成： $$ f_t(x)=f_{t-1}(x)+h_t(x) $$
+LightGBM底层实现了GBDT（Gradient Boosting Decision Tree）算法，并且添加了一系列的新特性：
+ 基于直方图算法进行优化，使数据存储更加方便、运算更快、鲁棒性强、模型更加稳定等。 提出了带深度限制的 Leaf-wise 算法，抛弃了大多数GBDT工具使用的按层生长 (level-wise) 的决策树生长策略，而使用了带有深度限制的按叶子生长策略，可以降低误差，得到更好的精度。 提出了单边梯度采样算法，排除大部分小梯度的样本，仅用剩下的样本计算信息增益，它是一种在减少数据量和保证精度上平衡的算法。 提出了互斥特征捆绑算法，高维度的数据往往是稀疏的，这种稀疏性启发我们设计一种无损的方法来 减少特征的维度。通常被捆绑的特征都是互斥的（即特征不会同时为非零值，像one-hot），这样两个特征捆绑起来就不会丢失信息。 直接支持类别特征(Categorical Feature)，即不需要进行one-hot编码 Cache命中率优化  LightGBM重要参数 基本参数调整  num_leaves参数 这是控制树模型复杂度的主要参数，一般的我们会使num_leaves小于（2的max_depth次方）， 以防止过拟合。由于LightGBM是leaf-wise建树与XGBoost的depth-wise建树方法不同，num_leaves比depth有更大的作用。 min_data_in_leaf 这是处理过拟合问题中一个非常重要的参数.]]></description>
+</item></channel>
+</rss>

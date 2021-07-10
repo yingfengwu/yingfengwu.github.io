@@ -1,0 +1,24 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>树 - 标签 - yingfengwu</title>
+        <link>https://yingfengwu.github.io/tags/%E6%A0%91/</link>
+        <description>树 - 标签 - yingfengwu</description>
+        <generator>Hugo -- gohugo.io</generator><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 31 May 2021 17:57:40 &#43;0800</lastBuildDate><atom:link href="https://yingfengwu.github.io/tags/%E6%A0%91/" rel="self" type="application/rss+xml" /><item>
+    <title>提升树模型</title>
+    <link>https://yingfengwu.github.io/%E6%8F%90%E5%8D%87%E6%A0%91/</link>
+    <pubDate>Mon, 31 May 2021 17:57:40 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://yingfengwu.github.io/%E6%8F%90%E5%8D%87%E6%A0%91/</guid>
+    <description><![CDATA[回归问题的提升树方法 算法1：
+输入：训练数据集$ T={(x_1,y_1),(x_2,y_2),&hellip;,(x_N,y_N)}, x_i \in X \subseteq R^n, y_i \in Y \subseteq R $
+输出：提升树$ f_m(x) $
+(1) 初始化$ f_0(x)=0 $
+(2) 对$ m=1,2,&hellip;,M $
+(2.1) 按式(1)计算残差$ r_{mi}=y_i-f_{m-1}(x_i) $
+(2.2) 拟合残差$r_{mi}$学习一个回归树，得到$T(x;\Theta_m)$
+(2.3) 更新$ f_m(x)=f_{m-1}(x)+T(x;\Theta_m) $
+(3) 得到回归问题的提升树$ f_M(x)=\displaystyle\sum_{m=1}^M T(x;\Theta_m) $
+例子：
+                 $x_i$ 1 2 3 4 5 6 7 8 9   $y_i$ 5.]]></description>
+</item></channel>
+</rss>

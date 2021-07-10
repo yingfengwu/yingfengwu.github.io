@@ -1,0 +1,16 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>大数据 - 分类 - yingfengwu</title>
+        <link>https://yingfengwu.github.io/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/</link>
+        <description>大数据 - 分类 - yingfengwu</description>
+        <generator>Hugo -- gohugo.io</generator><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 31 May 2021 17:57:40 &#43;0800</lastBuildDate><atom:link href="https://yingfengwu.github.io/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="self" type="application/rss+xml" /><item>
+    <title>Spark</title>
+    <link>https://yingfengwu.github.io/spark/</link>
+    <pubDate>Mon, 31 May 2021 17:57:40 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://yingfengwu.github.io/spark/</guid>
+    <description><![CDATA[Spark是专为大规模数据处理而设计的快速通用的计算引擎。 诞生于2009年，是加州大学伯克利分校RAD实验室的一个研究项目，最初基于Hadoop Mapreduce。 但是，由于Mapreduce在迭代式计算和交互式上低效，因此引入内存存储。
+Spark包括多个紧密集成的组件：
+ name: &ldquo;featured-image&rdquo; src: &ldquo;featured-image.png&rdquo;  Spark的组件 Spark core  基本功能：任务调度，内存管理，容错机制 内部定义了RDDs（Resilient distributed datasets, 弹性分布式数据集） 提供API创建和操作RDDs 在应用场景中，为其他组件提供底层的服务  Spark SQL  Spark处理结构化数据的库，类似Hive SQL，Mysql 应用场景，企业用来做报表统计  Spark Streaming  实时数据流处理组件，类似storm 提供API操作实时流数据 应用场景，企业用来从Kafka（等消息队列中）接收数据做实时统计  Mlib  一个包含通用机器学习功能的包，Machine learning lib，包括分类、聚类、回归、模型评估和数据导入等 Mlib提供的方法都支持集群上的横向扩展（平时使用python是单机处理且有限的，而Mlib是集群的） 应用场景，机器学习  Graphx  处理图的库（如社交网络图），并进行图的并行计算 像Spark Steaming和Spark SQL一样，它也继承了RDDs API 提供了各种图操作和常用的图算法，例如PangeRank算法 应用场景，图计算  Cluster Managers  集群管理，Spark自带的一个集群管理是单独调度器 常见集群管理包括Hadoop YARN，Apache Mesos  紧密集成的优点  Spark底层优化了，基于Spark底层的组件也得到了相应的优化 紧密集成，节省了各个组件组合使用时的部署，测试等时间 向Spark增加新的组件时，其它组件可立刻享用新组件的功能  Spark与Hadoop比较  Spark应用场景：时效性要求高（因为基于内存）、机器学习领域 Spark不具有HDFS（分布式文件系统）的存储能力，要借助HDFS等工具来持久化数据 Hadoop应用场景：离线处理、对时效性要求不高  安装 Spark安装 1.]]></description>
+</item></channel>
+</rss>

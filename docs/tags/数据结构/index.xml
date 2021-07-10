@@ -1,0 +1,16 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>数据结构 - 标签 - yingfengwu</title>
+        <link>https://yingfengwu.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</link>
+        <description>数据结构 - 标签 - yingfengwu</description>
+        <generator>Hugo -- gohugo.io</generator><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 28 May 2021 17:57:40 &#43;0800</lastBuildDate><atom:link href="https://yingfengwu.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="self" type="application/rss+xml" /><item>
+    <title>python数据结构栈和队列的相关方法</title>
+    <link>https://yingfengwu.github.io/python%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%93%8D%E4%BD%9C/</link>
+    <pubDate>Fri, 28 May 2021 17:57:40 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://yingfengwu.github.io/python%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%93%8D%E4%BD%9C/</guid>
+    <description><![CDATA[s = stack()
+stack()函数方法如下：
+   栈操作 栈内容 返回值     s.is_empty() [] True   s.push(4) [4]    s.push(‘dog’) [4,’dog’]    s.peek() [4,’dog’] ‘dog’   s.push(True) [4,’dog’,True]    s.size() [4,’dog’,True] 3   s.is_empty() [4,’dog’,True] False   s.push(8.4) [4,’dog’,True,8.4]    s.pop() [4,’dog’,True] 8.4   s.pop() [4,’dog’] True   s.size() [4,’dog’] 2    q = Queue()]]></description>
+</item></channel>
+</rss>

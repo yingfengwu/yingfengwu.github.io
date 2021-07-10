@@ -1,0 +1,24 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>深度学习 - 标签 - yingfengwu</title>
+        <link>https://yingfengwu.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</link>
+        <description>深度学习 - 标签 - yingfengwu</description>
+        <generator>Hugo -- gohugo.io</generator><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 04 Jun 2021 17:57:40 &#43;0800</lastBuildDate><atom:link href="https://yingfengwu.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="self" type="application/rss+xml" /><item>
+    <title>win10上Tensorflow&#43;CUDA安装</title>
+    <link>https://yingfengwu.github.io/win10%E4%B8%8Atensorflow-cuda%E5%AE%89%E8%A3%85/</link>
+    <pubDate>Fri, 04 Jun 2021 17:57:40 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://yingfengwu.github.io/win10%E4%B8%8Atensorflow-cuda%E5%AE%89%E8%A3%85/</guid>
+    <description><![CDATA[CUDA是一种由NVIDIA推出的通用并行计算架构，该架构使GPU能够解决复杂的计算问题。 包含了CUDA指令集架构（ISA）以及GPU内部的并行计算引擎。
+CUDA安装 首先查看tensorflow官网 上测试过可行的相对应的版本:
+然后，根据自己当前环境的要求，进入链接 选择相应的CUDA版本下载
+安装到自己想要的路径下，然后一直下一步。
+CUDA编译 下载好之后需要用Visual Studio软件将CUDA编译生成相应的可执行文件
+tensorflow安装 用pip安装tensorflow指定版本
+pip install tensorflow-gpu==1.15.4
+tensorflow用GPU进行运算测试 代码如下：
+1 2 3 4 5 6  import tensorflow as tf a = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], shape=[2, 3], name=&#39;a&#39;) b = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], shape=[3, 2], name=&#39;b&#39;) c = tf.matmul(a, b) sess = tf.Session(config=tf.ConfigProto(log_device_placement=True)) print sess.run(c)   本文简单总结，具体查看参考资料内容。
+参考资料：
+https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html https://blog.csdn.net/ccnucb/article/details/79873460]]></description>
+</item></channel>
+</rss>

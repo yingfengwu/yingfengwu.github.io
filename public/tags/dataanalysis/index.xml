@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>DataAnalysis - 标签 - yingfengwu</title>
+        <link>https://yingfengwu.github.io/tags/dataanalysis/</link>
+        <description>DataAnalysis - 标签 - yingfengwu</description>
+        <generator>Hugo -- gohugo.io</generator><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 28 May 2021 17:57:40 &#43;0800</lastBuildDate><atom:link href="https://yingfengwu.github.io/tags/dataanalysis/" rel="self" type="application/rss+xml" /><item>
+    <title>DataAnalysis</title>
+    <link>https://yingfengwu.github.io/dataanalysis/</link>
+    <pubDate>Fri, 28 May 2021 17:57:40 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://yingfengwu.github.io/dataanalysis/</guid>
+    <description><![CDATA[<p>这篇文章提供了可以在 Hugo 的文章中使用的基本 Markdown 语法示例.</p>]]></description>
+</item></channel>
+</rss>

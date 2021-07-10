@@ -1,0 +1,24 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>XGBoost - 标签 - yingfengwu</title>
+        <link>https://yingfengwu.github.io/tags/xgboost/</link>
+        <description>XGBoost - 标签 - yingfengwu</description>
+        <generator>Hugo -- gohugo.io</generator><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 02 Jun 2021 17:57:40 &#43;0800</lastBuildDate><atom:link href="https://yingfengwu.github.io/tags/xgboost/" rel="self" type="application/rss+xml" /><item>
+    <title>基于XGBoost的分类预测学习笔记</title>
+    <link>https://yingfengwu.github.io/%E5%9F%BA%E4%BA%8Exgboost%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/</link>
+    <pubDate>Wed, 02 Jun 2021 17:57:40 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://yingfengwu.github.io/%E5%9F%BA%E4%BA%8Exgboost%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/</guid>
+    <description><![CDATA[学习知识点概要   XGBoost的介绍及应用
+  基于天气数据集的XGBoost分类实战
+  学习内容 XGBoost的介绍 XGBoost是2016年由华盛顿大学陈天奇老师带领开发的一个可扩展机器学习系统，是一个可 供用户轻松解决分类、回归或排序问题的软件包。它内部实现了梯度提升树(GBDT)模型， 并对模型中的算法进行了诸多优化，在取得高精度的同时又保持了极快的速度。
+更重要的是，XGBoost在系统优化和机器学习原理方面都进行了深入的考虑。毫不夸张的讲， XGBoost提供的可扩展性，可移植性与准确性推动了机器学习计算限制的上限，该系统在单台 机器上运行速度比当时流行解决方案快十倍以上，甚至在分布式系统中可以处理十亿级的数据。
+ 优点：  简单易用。相对其他机器学习库，用户可以轻松使用XGBoost并获得相当不错的效果。 高效可扩展。在处理大规模数据集时速度快效果好，对内存等硬件资源要求不高。 鲁棒性强。相对于深度学习模型不需要精细调参便能取得接近的效果。 XGBoost内部实现提升树模型，可以自动处理缺失值。   缺点：  相对于深度学习模型无法对时空位置建模，不能很好地捕获图像、语音、文本等高维数据。 在拥有海量训练数据，并能找到合适的深度学习模型时，深度学习的精度可以遥遥领先XGBoost。    XGBoost原理:
+XGBoost是基于CART树的集成模型，它的思想是串联多个决策树模型共同进行决策。基模型是CART回归 树，它有两个特点：（1）CART树，是一颗二叉树。（2）回归树，最后拟合结果是连续值。
+那么如何串联呢？XGBoost采用迭代预测误差的方法串联。举个通俗的例子，我们现在需要预测一辆车 价值3000元。我们构建决策树1训练后预测为2600元，我们发现有400元的误差，那么决策树2的训练目 标为400元，但决策树2的预测结果为350元，还存在50元的误差就交给第三棵树……以此类推，每一颗树 用来估计之前所有树的误差，最后所有树预测结果的求和就是最终预测结果！
+XGBoost模型可以表示为以下形式，我们约定$ f_t(x) $表示前 t 颗树的和，h_t(x)表示第 t 颗决策树，模型定义如下： $$ f_t(x)=\sum_{t=1}^T h_t(x) $$
+由于模型递归生成，第t步的模型由第t-1步的模型形成，则可以写成： $$ f_t(x)=f_{t-1}(x)+h_t(x) $$
+XGBoost底层实现了GBDT（Gradient Boosting Decision Tree）算法，并对GBDT算法做了一系列优化：
+ 对目标函数进行了泰勒展示的二阶展开，可以更加高效拟合误差。 提出了一种估计分裂点的算法加速CART树的构建过程，同时可以处理稀疏数据。 提出了一种树的并行策略加速迭代。 为模型的分布式算法进行了底层优化  XGBoost重要参数    eta[默认0.3]    通过为每一颗树增加权重，提高模型的鲁棒性。]]></description>
+</item></channel>
+</rss>

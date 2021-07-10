@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>基于LightGBM的分类预测学习笔记 - yingfengwu</title><meta name="Description" content="这篇文章介绍了LightGBM的分类预测."><meta property="og:title" content="基于LightGBM的分类预测学习笔记" />
+<meta property="og:description" content="这篇文章介绍了LightGBM的分类预测." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://yingfengwu.github.io/%E5%9F%BA%E4%BA%8Elightgbm%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/" /><meta property="og:image" content="https://yingfengwu.github.io/favicon.ico"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-06-04T17:57:40&#43;08:00" />
+<meta property="article:modified_time" content="2021-06-04T18:45:40&#43;08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://yingfengwu.github.io/favicon.ico"/>
+
+<meta name="twitter:title" content="基于LightGBM的分类预测学习笔记"/>
+<meta name="twitter:description" content="这篇文章介绍了LightGBM的分类预测."/>
+<meta name="application-name" content="yingfengwu">
+<meta name="apple-mobile-web-app-title" content="yingfengwu"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://yingfengwu.github.io/%E5%9F%BA%E4%BA%8Elightgbm%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/" /><link rel="prev" href="https://yingfengwu.github.io/%E5%9F%BA%E4%BA%8Exgboost%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/" /><link rel="next" href="https://yingfengwu.github.io/win10%E4%B8%8Atensorflow-cuda%E5%AE%89%E8%A3%85/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "基于LightGBM的分类预测学习笔记",
+        "inLanguage": "",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/yingfengwu.github.io\/%E5%9F%BA%E4%BA%8Elightgbm%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B\/"
+        },"image": ["https:\/\/yingfengwu.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "机器学习, 分类, “预测”, LightGBM","wordcount":  1073 ,
+        "url": "https:\/\/yingfengwu.github.io\/%E5%9F%BA%E4%BA%8Elightgbm%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B\/","datePublished": "2021-06-04T17:57:40+08:00","dateModified": "2021-06-04T18:45:40+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "yingfengwu"
+            },"description": "这篇文章介绍了LightGBM的分类预测."
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="yingfengwu"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw'></i></span>Life-long Learning</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tages </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><a class="menu-item" href="https://github.com/yingfengwu/" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="yingfengwu"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw'></i></span>Life-long Learning</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tages</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a class="menu-item" href="https://github.com/yingfengwu/" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">基于LightGBM的分类预测学习笔记</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://yingfengwu.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>yingfengwu</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E5%A4%A9%E6%B1%A0ai%E8%AE%AD%E7%BB%83%E8%90%A5/"><i class="far fa-folder fa-fw"></i>天池AI训练营</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-06-04">2021-06-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1073 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;<span id="/%E5%9F%BA%E4%BA%8Elightgbm%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/" class="leancloud_visitors" data-flag-title="基于LightGBM的分类预测学习笔记">
+                        <i class="far fa-eye fa-fw"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#学习知识点概要">学习知识点概要</a></li>
+        <li><a href="#学习内容">学习内容</a>
+          <ul>
+            <li><a href="#lightgbm的介绍">LightGBM的介绍</a></li>
+            <li><a href="#lightgbm重要参数">LightGBM重要参数</a>
+              <ul>
+                <li><a href="#基本参数调整">基本参数调整</a></li>
+                <li><a href="#针对训练速度的参数调整">针对训练速度的参数调整</a></li>
+                <li><a href="#针对准确率的参数调整">针对准确率的参数调整</a></li>
+                <li><a href="#针对过拟合的参数调整">针对过拟合的参数调整</a></li>
+              </ul>
+            </li>
+            <li><a href="#lightgbm的应用">LightGBM的应用</a></li>
+            <li><a href="#基于英雄联盟数据集的lightgbm分类实战">基于英雄联盟数据集的LightGBM分类实战</a></li>
+          </ul>
+        </li>
+        <li><a href="#学习问题与解答">学习问题与解答</a></li>
+        <li><a href="#学习思考与总结">学习思考与总结</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h3 id="学习知识点概要">学习知识点概要</h3>
+<ul>
+<li>
+<p>LightGBM的介绍及应用</p>
+</li>
+<li>
+<p>基于英雄联盟数据集的LightGBM分类实战</p>
+</li>
+</ul>
+<h3 id="学习内容">学习内容</h3>
+<h4 id="lightgbm的介绍">LightGBM的介绍</h4>
+<p>LightGBM是2017年由微软推出的可扩展机器学习系统，是微软旗下DMKT的一个开源项目，由2014年首届
+阿里巴巴大数据竞赛获胜者之一柯国霖老师带领开发。它是一款基于GBDT（梯度提升决策树）算法的分
+布式梯度提升框架，为了满足缩短模型计算时间的需求，LightGBM的设计思路主要集中在减小数据对内
+存与计算性能的使用，以及减少多机器并行计算时的通讯代价。</p>
+<p>LightGBM可以看作是XGBoost的升级豪华版，在获得与XGBoost近似精度的同时，又提供了更快的训练速
+度与更少的内存消耗。正如其名字中的Light所蕴含的那样，LightGBM在大规模数据集上跑起来更加优
+雅轻盈，一经推出便成为各种数据竞赛中刷榜夺冠的神兵利器。</p>
+<ul>
+<li>优点：
+<ul>
+<li>简单易用。提供了主流的Python\C++\R语言接口，用户可以轻松使用LightGBM建模并获得相当不错的效果。</li>
+<li>高效可扩展。在处理大规模数据集时高效迅速、高准确度，对内存等硬件资源要求不高。</li>
+<li>鲁棒性强。相较于深度学习模型不需要精细调参便能取得近似的效果。</li>
+<li>LightGBM直接支持缺失值与类别特征，无需对数据额外进行特殊处理</li>
+</ul>
+</li>
+<li>缺点：
+<ul>
+<li>相对于深度学习模型无法对时空位置建模，不能很好地捕获图像、语音、文本等高维数据。</li>
+<li>在拥有海量训练数据，并能找到合适的深度学习模型时，深度学习的精度可以遥遥领先LightGBM。</li>
+</ul>
+</li>
+</ul>
+<p><strong>LightGBM原理:</strong></p>
+<p>LightGBM是基于CART树的集成模型，它的思想是串联多个决策树模型共同进行决策。基模型是CART回归
+树，它有两个特点：（1）CART树，是一颗二叉树。（2）回归树，最后拟合结果是连续值。</p>
+<p>那么如何串联呢？LightGBM采用迭代预测误差的方法串联。举个通俗的例子，我们现在需要预测一辆车
+价值3000元。我们构建决策树1训练后预测为2600元，我们发现有400元的误差，那么决策树2的训练目
+标为400元，但决策树2的预测结果为350元，还存在50元的误差就交给第三棵树……以此类推，每一颗树
+用来估计之前所有树的误差，最后所有树预测结果的求和就是最终预测结果！</p>
+<p>XGBoost模型可以表示为以下形式，我们约定$ f_t(x) $表示前 t 颗树的和，h_t(x)表示第 t 颗决策树，模型定义如下：
+$$ f_t(x)=\sum_{t=1}^T h_t(x) $$</p>
+<p>由于模型递归生成，第t步的模型由第t-1步的模型形成，则可以写成：
+$$ f_t(x)=f_{t-1}(x)+h_t(x) $$</p>
+<p>LightGBM底层实现了GBDT（Gradient Boosting Decision Tree）算法，并且添加了一系列的新特性：</p>
+<ol>
+<li>基于直方图算法进行优化，使数据存储更加方便、运算更快、鲁棒性强、模型更加稳定等。</li>
+<li>提出了带深度限制的 Leaf-wise 算法，抛弃了大多数GBDT工具使用的按层生长 (level-wise) 
+的决策树生长策略，而使用了带有深度限制的按叶子生长策略，可以降低误差，得到更好的精度。</li>
+<li>提出了单边梯度采样算法，排除大部分小梯度的样本，仅用剩下的样本计算信息增益，它是一种在减少数据量和保证精度上平衡的算法。</li>
+<li>提出了互斥特征捆绑算法，高维度的数据往往是稀疏的，这种稀疏性启发我们设计一种无损的方法来
+减少特征的维度。通常被捆绑的特征都是互斥的（即特征不会同时为非零值，像one-hot），这样两个特征捆绑起来就不会丢失信息。</li>
+<li>直接支持类别特征(Categorical Feature)，即不需要进行one-hot编码</li>
+<li>Cache命中率优化</li>
+</ol>
+<h4 id="lightgbm重要参数">LightGBM重要参数</h4>
+<h5 id="基本参数调整">基本参数调整</h5>
+<ol>
+<li>num_leaves参数 这是控制树模型复杂度的主要参数，一般的我们会使num_leaves小于（2的max_depth次方），
+以防止过拟合。由于LightGBM是leaf-wise建树与XGBoost的depth-wise建树方法不同，num_leaves比depth有更大的作用。</li>
+<li>min_data_in_leaf 这是处理过拟合问题中一个非常重要的参数. 它的值取决于训练数据的样本个树和 num_leaves参
+数. 将其设置的较大可以避免生成一个过深的树, 但有可能导致欠拟合. 实际应用中, 对于大数据集, 设置其为几百或几千就足够了。</li>
+<li>max_depth 树的深度，depth 的概念在 leaf-wise 树中并没有多大作用, 因为并不存在一个从 leaves 到 depth 的合理映射。</li>
+</ol>
+<h5 id="针对训练速度的参数调整">针对训练速度的参数调整</h5>
+<ol>
+<li>通过设置 bagging_fraction 和 bagging_freq 参数来使用 bagging 方法。</li>
+<li>通过设置 feature_fraction 参数来使用特征的子抽样。</li>
+<li>选择较小的 max_bin 参数。</li>
+<li>使用 save_binary 在未来的学习过程对数据加载进行加速。</li>
+</ol>
+<h5 id="针对准确率的参数调整">针对准确率的参数调整</h5>
+<ol>
+<li>使用较大的 max_bin （学习速度可能变慢）</li>
+<li>使用较小的 learning_rate 和较大的 num_iterations</li>
+<li>使用较大的 num_leaves （可能导致过拟合）</li>
+<li>使用更大的训练数据</li>
+<li>尝试 dart 模式</li>
+</ol>
+<h5 id="针对过拟合的参数调整">针对过拟合的参数调整</h5>
+<ol>
+<li>使用较小的 max_bin</li>
+<li>使用较小的 num_leaves</li>
+<li>使用 min_data_in_leaf 和 min_sum_hessian_in_leaf</li>
+<li>通过设置 bagging_fraction 和 bagging_freq 来使用 bagging</li>
+<li>通过设置 feature_fraction 来使用特征子抽样</li>
+<li>使用更大的训练数据</li>
+<li>使用 lambda_l1, lambda_l2 和 min_gain_to_split 来使用正则</li>
+<li>尝试 max_depth 来避免生成过深的树</li>
+</ol>
+<h4 id="lightgbm的应用">LightGBM的应用</h4>
+<ol>
+<li>金融风控</li>
+<li>购买行为识别</li>
+<li>交通流量预测</li>
+<li>环境声音分类</li>
+<li>基因分类</li>
+<li>生物成分分析</li>
+</ol>
+<h4 id="基于英雄联盟数据集的lightgbm分类实战">基于英雄联盟数据集的LightGBM分类实战</h4>
+<ul>
+<li>
+<p>Step1: 库函数导入</p>
+</li>
+<li>
+<p>Step2: 数据读取/载入</p>
+</li>
+<li>
+<p>Step3: 数据信息简单查看</p>
+</li>
+<li>
+<p>Step4: 可视化描述</p>
+</li>
+<li>
+<p>Step5: 利用 XGBoost 进行训练与预测</p>
+</li>
+<li>
+<p>Step6: 利用 XGBoost 进行特征选择</p>
+</li>
+<li>
+<p>Step7: 通过调整参数获得更好的效果</p>
+</li>
+</ul>
+<p><a href="https://tianchi-media.oss-cn-beijing.aliyuncs.com/DSW/8LightGBM/high_diamond_ranked_10min.csv" target="_blank" rel="noopener noreffer">英雄联盟数据集下载</a></p>
+<p>代码分析如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span><span class="lnt">241
+</span><span class="lnt">242
+</span><span class="lnt">243
+</span><span class="lnt">244
+</span><span class="lnt">245
+</span><span class="lnt">246
+</span><span class="lnt">247
+</span><span class="lnt">248
+</span><span class="lnt">249
+</span><span class="lnt">250
+</span><span class="lnt">251
+</span><span class="lnt">252
+</span><span class="lnt">253
+</span><span class="lnt">254
+</span><span class="lnt">255
+</span><span class="lnt">256
+</span><span class="lnt">257
+</span><span class="lnt">258
+</span><span class="lnt">259
+</span><span class="lnt">260
+</span><span class="lnt">261
+</span><span class="lnt">262
+</span><span class="lnt">263
+</span><span class="lnt">264
+</span><span class="lnt">265
+</span><span class="lnt">266
+</span><span class="lnt">267
+</span><span class="lnt">268
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">lightgbm.sklearn</span> <span class="kn">import</span> <span class="n">LGBMClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">lightgbm</span> <span class="kn">import</span> <span class="n">plot_importance</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="c1"># 绘图函数库</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+
+<span class="c1"># 我们利用Pandas自带的read_csv函数读取并转化为DataFrame格式</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../Data/LOL/high_diamond_ranked_10min.csv&#39;</span><span class="p">)</span>
+<span class="c1"># 利用.info()查看数据的整体信息</span>
+<span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+<span class="c1"># 进行简单的数据查看，我们可以利用.head()头部.tail()尾部</span>
+<span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">())</span>
+
+<span class="c1"># 标注标签并利用value_counts函数查看训练集标签的数量</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">blueWins</span>
+<span class="k">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+<span class="c1"># 标注特征列，drop_cols中存放非特征列，然后丢弃</span>
+<span class="n">drop_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gameId&#39;</span><span class="p">,</span> <span class="s1">&#39;blueWins&#39;</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># 对于特征进行一些统计描述</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+
+<span class="c1"># 根据上面的描述，我们可以去除一些重复变量，比如只要知道蓝队是否拿到一血，</span>
+<span class="c1"># 我们就知道红队有没有拿到，可以去除红队的相关冗余数据。</span>
+<span class="n">drop_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;redFirstBlood&#39;</span><span class="p">,</span><span class="s1">&#39;redKills&#39;</span><span class="p">,</span><span class="s1">&#39;redDeaths&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;redGoldDiff&#39;</span><span class="p">,</span><span class="s1">&#39;redExperienceDiff&#39;</span><span class="p">,</span> <span class="s1">&#39;blueCSPerMin&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;blueGoldPerMin&#39;</span><span class="p">,</span><span class="s1">&#39;redCSPerMin&#39;</span><span class="p">,</span><span class="s1">&#39;redGoldPerMin&#39;</span><span class="p">]</span>
+<span class="n">x</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># 减去平均数除以标准差相当于对原始数据进行了线性变换，没有改变数据之间的相</span>
+<span class="c1"># 对位置，也没有改变数据的分布，只是数据的平均数变成0，标准差变成1。根本不</span>
+<span class="c1"># 会变成正态分布，除非它本来就是。</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">x</span>
+<span class="n">data_std</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">data_std</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">9</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">id_vars</span><span class="o">=</span><span class="s1">&#39;blueWins&#39;</span><span class="p">,</span>
+               <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;Features&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Values&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># 绘制小提琴图</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">violinplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Features&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Values&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;blueWins&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+               <span class="n">inner</span><span class="o">=</span><span class="s1">&#39;quart&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">autofmt_xdate</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>  <span class="c1"># 将x轴每列的标号旋转45°</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">x</span>
+<span class="n">data_std</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">data_std</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">9</span><span class="p">:</span><span class="mi">18</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">id_vars</span><span class="o">=</span><span class="s1">&#39;blueWins&#39;</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;Features&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Values&#39;</span><span class="p">)</span>
+
+<span class="c1"># 绘制小提琴图</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">violinplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Features&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Values&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;blueWins&#39;</span><span class="p">,</span>
+               <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">inner</span><span class="o">=</span><span class="s1">&#39;quart&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">autofmt_xdate</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">14</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">corr</span><span class="p">(),</span><span class="mi">2</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># 去除冗余特征</span>
+<span class="n">drop_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;redAvgLevel&#39;</span><span class="p">,</span><span class="s1">&#39;blueAvgLevel&#39;</span><span class="p">]</span>
+<span class="n">x</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;muted&#39;</span><span class="p">)</span>
+
+<span class="c1"># 构造两个新特征</span>
+<span class="n">x</span><span class="p">[</span><span class="s1">&#39;wardsPlacedDiff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;blueWardsPlaced&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;redWardsPlaced&#39;</span><span class="p">]</span>
+<span class="n">x</span><span class="p">[</span><span class="s1">&#39;wardsDestroyedDiff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;blueWardsDestroyed&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;redWardsDestroyed&#39;</span><span class="p">]</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">x</span><span class="p">[[</span><span class="s1">&#39;blueWardsPlaced&#39;</span><span class="p">,</span><span class="s1">&#39;blueWardsDestroyed&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;wardsPlacedDiff&#39;</span><span class="p">,</span><span class="s1">&#39;wardsDestroyedDiff&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">data_std</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">data_std</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">id_vars</span><span class="o">=</span><span class="s1">&#39;blueWins&#39;</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;Features&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Values&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">swarmplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Features&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Values&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;blueWins&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># 去除和眼位相关的特征</span>
+<span class="n">drop_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blueWardsPlaced&#39;</span><span class="p">,</span><span class="s1">&#39;blueWardsDestroyed&#39;</span><span class="p">,</span><span class="s1">&#39;wardsPlacedDiff&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;wardsDestroyedDiff&#39;</span><span class="p">,</span><span class="s1">&#39;redWardsPlaced&#39;</span><span class="p">,</span><span class="s1">&#39;redWardsDestroyed&#39;</span><span class="p">]</span>
+<span class="n">x</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">x</span><span class="p">[</span><span class="s1">&#39;killsDiff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;blueKills&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;blueDeaths&#39;</span><span class="p">]</span>
+<span class="n">x</span><span class="p">[</span><span class="s1">&#39;assistsDiff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;blueAssists&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;redAssists&#39;</span><span class="p">]</span>
+
+<span class="n">x</span><span class="p">[[</span><span class="s1">&#39;blueKills&#39;</span><span class="p">,</span><span class="s1">&#39;blueDeaths&#39;</span><span class="p">,</span><span class="s1">&#39;blueAssists&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;killsDiff&#39;</span><span class="p">,</span><span class="s1">&#39;assistsDiff&#39;</span><span class="p">,</span><span class="s1">&#39;redAssists&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">x</span><span class="p">[[</span><span class="s1">&#39;blueKills&#39;</span><span class="p">,</span><span class="s1">&#39;blueDeaths&#39;</span><span class="p">,</span><span class="s1">&#39;blueAssists&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;killsDiff&#39;</span><span class="p">,</span><span class="s1">&#39;assistsDiff&#39;</span><span class="p">,</span><span class="s1">&#39;redAssists&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">data_std</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">data_std</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">id_vars</span><span class="o">=</span><span class="s1">&#39;blueWins&#39;</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;Features&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Values&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">swarmplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Features&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Values&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;blueWins&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;blueKills&#39;</span><span class="p">,</span><span class="s1">&#39;blueDeaths&#39;</span><span class="p">,</span><span class="s1">&#39;blueAssists&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;killsDiff&#39;</span><span class="p">,</span><span class="s1">&#39;assistsDiff&#39;</span><span class="p">,</span><span class="s1">&#39;redAssists&#39;</span><span class="p">],</span>
+             <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;blueWins&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">x</span><span class="p">[</span><span class="s1">&#39;dragonsDiff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;blueDragons&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;redDragons&#39;</span><span class="p">]</span>
+<span class="n">x</span><span class="p">[</span><span class="s1">&#39;heraldsDiff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;blueHeralds&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;redHeralds&#39;</span><span class="p">]</span>
+<span class="n">x</span><span class="p">[</span><span class="s1">&#39;eliteDiff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;blueEliteMonsters&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;redEliteMonsters&#39;</span><span class="p">]</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">eliteGroup</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;eliteDiff&#39;</span><span class="p">])[</span><span class="s1">&#39;blueWins&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">dragonGroup</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;dragonsDiff&#39;</span><span class="p">])[</span><span class="s1">&#39;blueWins&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">heraldGroup</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;heraldsDiff&#39;</span><span class="p">])[</span><span class="s1">&#39;blueWins&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="n">eliteGroup</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">dragonGroup</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">heraldGroup</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">eliteGroup</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">dragonGroup</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">heraldGroup</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">x</span><span class="p">[</span><span class="s1">&#39;towerDiff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;blueTowersDestroyed&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;redTowersDestroyed&#39;</span><span class="p">]</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">towerGroup</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;towerDiff&#39;</span><span class="p">])[</span><span class="s1">&#39;blueWins&#39;</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">towerGroup</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">towerGroup</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+<span class="n">figure</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">towerGroup</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;line&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Proportion of Blue Wins&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Proportion&#39;</span><span class="p">)</span>
+
+<span class="n">towerGroup</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;line&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Count of Towers Destroyed&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
+
+<span class="c1"># ---------------------------------利用 LightGBM 进行训练与预测----------------------------------</span>
+<span class="c1"># 为了正确评估模型性能，将数据划分为训练集和测试集，并在训练集上训练模型，在测试集上验证模型性能。</span>
+<span class="c1"># 选择其类别为0和1的样本</span>
+<span class="n">data_target_part</span> <span class="o">=</span> <span class="n">y</span>
+<span class="n">data_features_part</span> <span class="o">=</span> <span class="n">x</span>
+
+<span class="c1"># 测试集大小为20%，训练集大小为80%</span>
+<span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">data_features_part</span><span class="p">,</span>
+                                                    <span class="n">data_target_part</span><span class="p">,</span>
+                                                    <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+                                                    <span class="n">random_state</span> <span class="o">=</span> <span class="mi">2020</span><span class="p">)</span>
+
+<span class="c1"># 定义 LightGBM 模型</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">LGBMClassifier</span><span class="p">()</span>
+<span class="c1"># 在训练集上训练LightGBM模型</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># 在训练集和测试集上分布利用训练好的模型进行预测</span>
+<span class="n">train_predict</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+<span class="n">test_predict</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+
+<span class="c1"># 利用accuracy（准确度）【预测正确的样本数目占总预测样本数目的比例】评估模型效果</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;The accuracy of the Logistic Regression is:&#39;</span><span class="p">,</span>
+      <span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span><span class="n">train_predict</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;The accuracy of the Logistic Regression is:&#39;</span><span class="p">,</span>
+      <span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">test_predict</span><span class="p">))</span>
+
+<span class="c1"># 查看混淆矩阵 (预测值和真实值的各类情况统计矩阵)</span>
+<span class="n">confusion_matrix_result</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">test_predict</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;The confusion matrix result:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">confusion_matrix_result</span><span class="p">)</span>
+
+<span class="c1"># 利用热力图对于结果进行可视化</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">confusion_matrix_result</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted labels&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True labels&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">data_features_part</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">clf</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">)</span>
+
+
+<span class="c1"># -------------------绘制对应列（即特征）的重要性图-----------------------</span>
+<span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="c1"># sns.barplot(data.columns,model.feature_importances_)</span>
+    <span class="n">ax1</span> <span class="o">=</span> <span class="n">plot_importance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">importance_type</span><span class="o">=</span><span class="s2">&#34;gain&#34;</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;gain&#39;</span><span class="p">)</span>
+    <span class="n">ax2</span> <span class="o">=</span> <span class="n">plot_importance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">importance_type</span><span class="o">=</span><span class="s2">&#34;split&#34;</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;split&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">classes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">test</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">LGBMClassifier</span><span class="p">()</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+    <span class="n">estimate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ans</span>
+
+
+<span class="n">ans</span> <span class="o">=</span> <span class="n">classes</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">)</span>
+<span class="n">pre</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">ans</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;acc=&#39;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">ans</span><span class="p">))</span>
+
+<span class="c1"># 定义参数取值范围</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">]</span>
+<span class="n">feature_fraction</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">num_leaves</span> <span class="o">=</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">]</span>
+<span class="n">max_depth</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+
+<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="n">learning_rate</span><span class="p">,</span>
+              <span class="s1">&#39;feature_fraction&#39;</span><span class="p">:</span> <span class="n">feature_fraction</span><span class="p">,</span>
+              <span class="s1">&#39;num_leaves&#39;</span><span class="p">:</span> <span class="n">num_leaves</span><span class="p">,</span>
+              <span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="n">max_depth</span><span class="p">}</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LGBMClassifier</span><span class="p">(</span><span class="n">n_estimators</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># 进行网格搜索</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                   <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="c1"># 网格搜索后的最好参数为</span>
+<span class="k">print</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+<span class="c1"># 在训练集和测试集上分布利用最好的模型参数进行预测</span>
+<span class="c1"># 定义带参数的 LightGBM模型</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">LGBMClassifier</span><span class="p">(</span><span class="n">feature_fraction</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                     <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                     <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                     <span class="n">num_leaves</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="c1"># 在训练集上训练LightGBM模型</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">train_predict</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+<span class="n">test_predict</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+
+<span class="c1"># 利用accuracy（准确度）【预测正确的样本数目占总预测样本数目的比例】评估模型效果</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;The accuracy of the Logistic Regression is:&#39;</span><span class="p">,</span>
+      <span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span><span class="n">train_predict</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;The accuracy of the Logistic Regression is:&#39;</span><span class="p">,</span>
+      <span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">test_predict</span><span class="p">))</span>
+
+<span class="c1"># 查看混淆矩阵 (预测值和真实值的各类情况统计矩阵)</span>
+<span class="n">confusion_matrix_result</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">test_predict</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;The confusion matrix result:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">confusion_matrix_result</span><span class="p">)</span>
+
+<span class="c1"># 利用热力图对于结果进行可视化</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">confusion_matrix_result</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted labels&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True labels&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="学习问题与解答">学习问题与解答</h3>
+<ol>
+<li>
+<p>LightGBM是怎么做到训练速度更快且内存消耗更少得呢？</p>
+<p>对于每个特征，需要扫描所有得数据实例去估计所有可能划分的点的信息增益是很耗时的，为了解决该问题，
+<a href="https://papers.nips.cc/paper/2017/file/6449f44a102fde848669bdd9eb6b76fa-Paper.pdf" target="_blank" rel="noopener noreffer">微软</a> 相关
+人员提出了两个新的技术：基于梯度的单边采样和独有的特征绑定。用基于梯度的单边采样的方法，可以用
+小梯度排除大多重要的数据实例，并且用剩下的实例去估计信息增益。该文证实了基于梯度的单边采样的方法
+用小规模的数据即可获得相当准确的信息增益估计。该文用独有的特征绑定去相互地绑定独有特征来减少特征
+数量，而且找到最优绑定是NP难问题，但是贪婪算法可以实现很好的近似率。</p>
+<p>排他特征绑定:</p>
+<p>在稀疏特征空间，许多特征是相互排斥地，也就是它们不会同时为非零值（有些特征必为零，有些不为零）。
+直方图构建的复杂度从O(data,feature)到O(data,bundle)，且bundle值远小于feature值。这里有两个问题
+需要解决，一个是哪些特征需要被绑定在一起，另一个是怎样去构建绑定。</p>
+<p>定理1：划分特征到小批量的排他特征的问题是NP难的。</p>
+<p>证明：该文将图着色问题归约到该问题中。因为图着色问题是NP难的，所以可以由此推出我们的结论。</p>
+</li>
+</ol>
+<h3 id="学习思考与总结">学习思考与总结</h3>
+<p>通过此次得学习，我学到了LightGBM的基本原理及其相关应用，LightGBM训练速度更快且内存消耗更少。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-06-04</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/%E5%9F%BA%E4%BA%8Elightgbm%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://yingfengwu.github.io/%E5%9F%BA%E4%BA%8Elightgbm%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/" data-title="基于LightGBM的分类预测学习笔记" data-hashtags="机器学习,分类,“预测”,LightGBM"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://yingfengwu.github.io/%E5%9F%BA%E4%BA%8Elightgbm%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/" data-hashtag="机器学习"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://yingfengwu.github.io/%E5%9F%BA%E4%BA%8Elightgbm%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/" data-title="基于LightGBM的分类预测学习笔记"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://yingfengwu.github.io/%E5%9F%BA%E4%BA%8Elightgbm%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/" data-title="基于LightGBM的分类预测学习笔记"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://yingfengwu.github.io/%E5%9F%BA%E4%BA%8Elightgbm%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/" data-title="基于LightGBM的分类预测学习笔记"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>,&nbsp;<a href="/tags/%E5%88%86%E7%B1%BB/">分类</a>,&nbsp;<a href="/tags/%E9%A2%84%E6%B5%8B/">“预测”</a>,&nbsp;<a href="/tags/lightgbm/">LightGBM</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/%E5%9F%BA%E4%BA%8Exgboost%E7%9A%84%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/" class="prev" rel="prev" title="基于XGBoost的分类预测学习笔记"><i class="fas fa-angle-left fa-fw"></i>基于XGBoost的分类预测学习笔记</a>
+            <a href="/win10%E4%B8%8Atensorflow-cuda%E5%AE%89%E8%A3%85/" class="next" rel="next" title="win10上Tensorflow&#43;CUDA安装">win10上Tensorflow&#43;CUDA安装<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.83.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">yingfengwu</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lunr@2.3.8/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/js/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-thumbnail.js@1.2.0/dist/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-zoom.js@1.2.0/dist/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"valine":{"appId":"jU6Y9tysNTNuBKd3EFPOjnP2-gzGzoHsz","appKey":"mb1nQDesHE9zYS9Vjqf2In9P","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@5.0.1/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"zh-cn","pageSize":10,"placeholder":"你的评论 ...","recordIP":true,"visitor":true}},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
