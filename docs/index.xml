@@ -126,6 +126,15 @@ $$ P = P(y=1 | x, \theta) = 1/(1+e^{w_0 + \textstyle\sum_{i=1}^n w_i x_i}) $$
 Spark包括多个紧密集成的组件：
  name: &ldquo;featured-image&rdquo; src: &ldquo;featured-image.png&rdquo;  Spark的组件 Spark core  基本功能：任务调度，内存管理，容错机制 内部定义了RDDs（Resilient distributed datasets, 弹性分布式数据集） 提供API创建和操作RDDs 在应用场景中，为其他组件提供底层的服务  Spark SQL  Spark处理结构化数据的库，类似Hive SQL，Mysql 应用场景，企业用来做报表统计  Spark Streaming  实时数据流处理组件，类似storm 提供API操作实时流数据 应用场景，企业用来从Kafka（等消息队列中）接收数据做实时统计  Mlib  一个包含通用机器学习功能的包，Machine learning lib，包括分类、聚类、回归、模型评估和数据导入等 Mlib提供的方法都支持集群上的横向扩展（平时使用python是单机处理且有限的，而Mlib是集群的） 应用场景，机器学习  Graphx  处理图的库（如社交网络图），并进行图的并行计算 像Spark Steaming和Spark SQL一样，它也继承了RDDs API 提供了各种图操作和常用的图算法，例如PangeRank算法 应用场景，图计算  Cluster Managers  集群管理，Spark自带的一个集群管理是单独调度器 常见集群管理包括Hadoop YARN，Apache Mesos  紧密集成的优点  Spark底层优化了，基于Spark底层的组件也得到了相应的优化 紧密集成，节省了各个组件组合使用时的部署，测试等时间 向Spark增加新的组件时，其它组件可立刻享用新组件的功能  Spark与Hadoop比较  Spark应用场景：时效性要求高（因为基于内存）、机器学习领域 Spark不具有HDFS（分布式文件系统）的存储能力，要借助HDFS等工具来持久化数据 Hadoop应用场景：离线处理、对时效性要求不高  安装 Spark安装 1.]]></description>
 </item><item>
+    <title>推荐系统介绍</title>
+    <link>https://yingfengwu.github.io/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/</link>
+    <pubDate>Mon, 31 May 2021 17:57:40 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://yingfengwu.github.io/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/</guid>
+    <description><![CDATA[Spark是专为大规模数据处理而设计的快速通用的计算引擎。 诞生于2009年，是加州大学伯克利分校RAD实验室的一个研究项目，最初基于Hadoop Mapreduce。 但是，由于Mapreduce在迭代式计算和交互式上低效，因此引入内存存储。
+Spark包括多个紧密集成的组件：
+ name: &ldquo;featured-image&rdquo; src: &ldquo;featured-image.png&rdquo;  推荐系统应用 个性化音乐  基本功能：任务调度，内存管理，容错机制 内部定义了RDDs（Resilient distributed datasets, 弹性分布式数据集） 提供API创建和操作RDDs 在应用场景中，为其他组件提供底层的服务  电子商务  Spark处理结构化数据的库，类似Hive SQL，Mysql 应用场景，企业用来做报表统计  电影视频  实时数据流处理组件，类似storm 提供API操作实时流数据 应用场景，企业用来从Kafka（等消息队列中）接收数据做实时统计  社交网络  一个包含通用机器学习功能的包，Machine learning lib，包括分类、聚类、回归、模型评估和数据导入等 Mlib提供的方法都支持集群上的横向扩展（平时使用python是单机处理且有限的，而Mlib是集群的） 应用场景，机器学习  个性化阅读  处理图的库（如社交网络图），并进行图的并行计算 像Spark Steaming和Spark SQL一样，它也继承了RDDs API 提供了各种图操作和常用的图算法，例如PangeRank算法 应用场景，图计算  位置服务  集群管理，Spark自带的一个集群管理是单独调度器 常见集群管理包括Hadoop YARN，Apache Mesos  个性化邮件  Spark底层优化了，基于Spark底层的组件也得到了相应的优化 紧密集成，节省了各个组件组合使用时的部署，测试等时间 向Spark增加新的组件时，其它组件可立刻享用新组件的功能  个性化广告  Spark应用场景：时效性要求高（因为基于内存）、机器学习领域 Spark不具有HDFS（分布式文件系统）的存储能力，要借助HDFS等工具来持久化数据 Hadoop应用场景：离线处理、对时效性要求不高  个性化旅游  Spark应用场景：时效性要求高（因为基于内存）、机器学习领域 Spark不具有HDFS（分布式文件系统）的存储能力，要借助HDFS等工具来持久化数据 Hadoop应用场景：离线处理、对时效性要求不高  证券、投资  Spark应用场景：时效性要求高（因为基于内存）、机器学习领域 Spark不具有HDFS（分布式文件系统）的存储能力，要借助HDFS等工具来持久化数据 Hadoop应用场景：离线处理、对时效性要求不高  推荐系统分类 根据实时性分类 1.]]></description>
+</item><item>
     <title>提升树模型</title>
     <link>https://yingfengwu.github.io/%E6%8F%90%E5%8D%87%E6%A0%91/</link>
     <pubDate>Mon, 31 May 2021 17:57:40 &#43;0800</pubDate>
@@ -142,14 +151,5 @@ Spark包括多个紧密集成的组件：
 (3) 得到回归问题的提升树$ f_M(x)=\displaystyle\sum_{m=1}^M T(x;\Theta_m) $
 例子：
                  $x_i$ 1 2 3 4 5 6 7 8 9   $y_i$ 5.]]></description>
-</item><item>
-    <title>python数据结构栈和队列的相关方法</title>
-    <link>https://yingfengwu.github.io/python%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%93%8D%E4%BD%9C/</link>
-    <pubDate>Fri, 28 May 2021 17:57:40 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://yingfengwu.github.io/python%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%93%8D%E4%BD%9C/</guid>
-    <description><![CDATA[s = stack()
-stack()函数方法如下：
-   栈操作 栈内容 返回值     s.is_empty() [] True   s.push(4) [4]    s.push(‘dog’) [4,’dog’]    s.peek() [4,’dog’] ‘dog’   s.push(True) [4,’dog’,True]    s.size() [4,’dog’,True] 3   s.is_empty() [4,’dog’,True] False   s.push(8.4) [4,’dog’,True,8.4]    s.pop() [4,’dog’,True] 8.4   s.pop() [4,’dog’] True   s.size() [4,’dog’] 2    q = Queue()]]></description>
 </item></channel>
 </rss>
